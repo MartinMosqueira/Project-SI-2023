@@ -1,36 +1,52 @@
 package app.project.ProjectSI.model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.Set;
 
 @Entity
 @Data
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "usuario")
 public class Usuario implements Serializable {
 
     @Id
-    @Column(name = "id",unique = true, nullable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(name = "nombre", nullable = false)
+    @NotBlank
+    @Size(max = 30)
+    @Column(name = "nombre")
     private String nombre;
-    @Column(name = "apellido", nullable = false)
+    @NotBlank
+    @Size(max = 40)
+    @Column(name = "apellido")
     private String apellido;
-    @Column(name = "email", nullable = false)
+    @Email
+    @NotBlank
+    @Size(max = 60)
+    @Column(name = "email")
     private String email;
-    @Column(name = "fecha nacimiento", nullable = false)
+    @NotBlank
+    @Column(name = "fecha nacimiento")
     private Date fechaNacimiento;
-    @Column(name = "password", nullable = false)
+    @NotBlank
+    @Column(name = "password")
     private String password;
+    @Size(min = 7, max = 13)
     @Column(name = "telefono")
     private Long telefono;
+    @ManyToMany(fetch = FetchType.EAGER, targetEntity = UsuarioRoles.class, cascade = CascadeType.PERSIST)
+    @JoinTable(name = "usuario_roles", joinColumns = @JoinColumn(name = "usuario_id"), inverseJoinColumns = @JoinColumn(name = "roles_id"))
+    private Set<UsuarioRoles> rol;
 }

@@ -16,10 +16,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.io.Serializable;
 import java.time.LocalDate;
-import java.util.Collection;
-import java.util.Date;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 @Data
@@ -53,6 +50,8 @@ public class Usuario implements UserDetails, Serializable {
     private String password;
     @Column(name = "telefono")
     private Long telefono;
+    @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL)
+    private Set<Mensajes> mensajes=new HashSet<>();
     private Roles rol;
 
     @Override

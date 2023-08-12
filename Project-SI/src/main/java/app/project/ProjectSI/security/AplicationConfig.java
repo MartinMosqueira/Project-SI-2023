@@ -1,8 +1,8 @@
 package app.project.ProjectSI.security;
 
+import app.project.ProjectSI.repo.IUsuarioRepo;
 import app.project.ProjectSI.service.UsuarioService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -18,7 +18,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @RequiredArgsConstructor
 public class AplicationConfig {
 
-    private final UsuarioService usuarioService;
+    private final IUsuarioRepo usuarioRepo;
 
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception
@@ -42,7 +42,7 @@ public class AplicationConfig {
 
     @Bean
     public UserDetailsService userDetailService() {
-        return username -> usuarioService.find_username_service(username)
+        return username -> usuarioRepo.findByUsername(username)
                 .orElseThrow(()-> new UsernameNotFoundException("User not found"));
     }
 }

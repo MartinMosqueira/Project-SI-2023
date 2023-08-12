@@ -25,10 +25,8 @@ public class Mensajes {
     @Size(max = 200)
     @Column(name = "mensaje")
     private String mensaje;
-    @NotNull
     @Column(name = "fecha")
     private Instant fecha;
-    @NotNull
     @ManyToOne(fetch = FetchType.LAZY)
     private Usuario usuario;
 }

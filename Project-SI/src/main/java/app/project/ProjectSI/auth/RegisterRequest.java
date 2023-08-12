@@ -16,4 +16,5 @@ public class RegisterRequest {
     String password;
     String email;
     LocalDate fechaNacimiento;
+    String rol;
 }

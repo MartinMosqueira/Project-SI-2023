@@ -1,6 +1,7 @@
 package app.project.ProjectSI.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -23,6 +24,7 @@ import java.util.*;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@JsonInclude(JsonInclude.Include.NON_NULL)
 @Table(name = "usuario", uniqueConstraints = {
         @UniqueConstraint(columnNames = "nombre usuario"),
         @UniqueConstraint(columnNames = "email")
@@ -50,8 +52,12 @@ public class Usuario implements UserDetails, Serializable {
     private String password;
     @Column(name = "telefono")
     private Long telefono;
+    /*
     @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL)
     private Set<Mensajes> mensajes=new HashSet<>();
+     */
+    @Enumerated(EnumType.STRING)
+    @Column(name = "rol")
     private Roles rol;
 
     @Override

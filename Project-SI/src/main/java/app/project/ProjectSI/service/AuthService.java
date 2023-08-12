@@ -5,6 +5,7 @@ import app.project.ProjectSI.auth.LoginRequest;
 import app.project.ProjectSI.auth.RegisterRequest;
 import app.project.ProjectSI.model.Roles;
 import app.project.ProjectSI.model.Usuario;
+import app.project.ProjectSI.repo.IUsuarioRepo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -16,7 +17,7 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class AuthService {
 
-    private final UsuarioService usuarioService;
+    private final IUsuarioRepo usuarioRepo;
 
     private final JwtService jwtService;
 
@@ -26,7 +27,7 @@ public class AuthService {
 
     public AuthResponse login(LoginRequest loginRequest) {
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
-        UserDetails user=usuarioService.find_username_service(loginRequest.getUsername()).orElseThrow();
+        UserDetails user= usuarioRepo.findByUsername(loginRequest.getUsername()).orElseThrow();
         String token=jwtService.getToken(user);
         return AuthResponse.builder()
                 .token(token)
@@ -34,14 +35,15 @@ public class AuthService {
     }
 
     public AuthResponse register(RegisterRequest registerRequest) {
+        Roles requestedRole = Roles.valueOf(registerRequest.getRol());
         Usuario usuario = Usuario.builder()
                 .username(registerRequest.getUsername())
                 .password(passwordEncoder.encode(registerRequest.getPassword()))
                 .email(registerRequest.getEmail())
                 .fechaNacimiento(registerRequest.getFechaNacimiento())
-                .rol(Roles.USER)
+                .rol(requestedRole)
                 .build();
-        usuarioService.create_usuario_service(usuario);
+        usuarioRepo.save(usuario);
         return AuthResponse.builder()
                 .token(jwtService.getToken(usuario))
                 .build();

@@ -24,5 +24,5 @@ public class UsuarioDTO {
     @NotBlank
     private String password;
     private Long telefono;
-    private Set<String> rol;
+    private String rol;
 }

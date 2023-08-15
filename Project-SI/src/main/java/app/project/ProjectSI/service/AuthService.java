@@ -6,6 +6,7 @@ import app.project.ProjectSI.auth.RegisterRequest;
 import app.project.ProjectSI.model.Roles;
 import app.project.ProjectSI.model.Usuario;
 import app.project.ProjectSI.repo.IUsuarioRepo;
+import app.project.ProjectSI.request.UsuarioDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;

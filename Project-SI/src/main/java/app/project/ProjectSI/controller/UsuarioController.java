@@ -63,4 +63,24 @@ public class UsuarioController {
         String deleteContacto = usuarioService.delete_contacto_service(contactoID);
         return ResponseEntity.ok(deleteContacto);
     }
+
+    //SESSIONS ENDPOINTS
+
+    @PostMapping("/add/seguido/{seguidoID}")
+    public ResponseEntity<UsuarioDTO> add_seguido_controller(@PathVariable Long seguidoID) {
+        UsuarioDTO usuarioDTO = usuarioService.add_seguido_service(seguidoID);
+        return ResponseEntity.ok(usuarioDTO);
+    }
+
+    @GetMapping("/get/seguidos")
+    public ResponseEntity<Set<Usuario>> get_seguidos_controller() {
+        Set<Usuario> seguidos = usuarioService.get_all_seguidos_service();
+        return ResponseEntity.ok(seguidos);
+    }
+
+    @DeleteMapping("/delete/seguido/{seguidoID}")
+    public ResponseEntity<String> delete_seguido_controller(@PathVariable Long seguidoID) {
+        String deleteSeguido = usuarioService.delete_seguido_service(seguidoID);
+        return ResponseEntity.ok(deleteSeguido);
+    }
 }

@@ -89,4 +89,38 @@ public class UsuarioService {
         usuarioRepo.save(usuarioConContactos);
         return "Contacto eliminado";
     }
+
+    //SEGUIDOS ENPOINTS
+
+    public UsuarioDTO add_seguido_service(Long contactoID){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        Usuario usuario = (Usuario) authentication.getPrincipal();
+        Usuario seguido = usuarioRepo.findById(contactoID).orElseThrow();
+
+        Usuario usuarioConContactos = usuarioRepo.findWithContactosById(usuario.getId()).orElseThrow();
+        usuarioConContactos.getSeguidos().add(seguido);
+        usuarioRepo.save(usuarioConContactos);
+
+        UsuarioDTO usuarioDTO = new UsuarioDTO();
+        usuarioDTO.setUsername(seguido.getUsername());
+        usuarioDTO.setEmail(seguido.getEmail());
+        usuarioDTO.setFechaNacimiento(seguido.getFechaNacimiento());
+        return usuarioDTO;
+    }
+
+    public Set<Usuario> get_all_seguidos_service() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        Usuario usuario = (Usuario) authentication.getPrincipal();
+        Usuario usuarioConContactos = usuarioRepo.findWithContactosById(usuario.getId()).orElseThrow();
+        return usuarioConContactos.getSeguidos();
+    }
+
+    public String delete_seguido_service(Long id) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        Usuario usuario = (Usuario) authentication.getPrincipal();
+        Usuario usuarioConContactos = usuarioRepo.findWithContactosById(usuario.getId()).orElseThrow();
+        usuarioConContactos.getSeguidos().removeIf(seguido -> seguido.getId().equals(id));
+        usuarioRepo.save(usuarioConContactos);
+        return "Seguido eliminado";
+    }
 }

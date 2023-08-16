@@ -27,8 +27,8 @@ public class UsuarioController {
     }
 
     @PostMapping("/find/{username}")
-    public ResponseEntity<Usuario> find_username_controller(@PathVariable String username) {
-        Usuario nameUsuario = usuarioService.find_usuario_service(username).orElseThrow();
+    public ResponseEntity<UsuarioDTO> find_username_controller(@PathVariable String username) {
+        UsuarioDTO nameUsuario = usuarioService.find_usuario_service(username);
         return ResponseEntity.ok(nameUsuario);
     }
 
@@ -39,8 +39,8 @@ public class UsuarioController {
     }
 
     @PutMapping ("/update")
-    public ResponseEntity<Usuario> update_usuario_controller(@RequestBody Usuario usuario) {
-        Usuario updateUsuario = usuarioService.update_usuario_service(usuario);
+    public ResponseEntity<UsuarioDTO> update_usuario_controller(@RequestBody Usuario usuario) {
+        UsuarioDTO updateUsuario = usuarioService.update_usuario_service(usuario);
         return ResponseEntity.ok(updateUsuario);
     }
 

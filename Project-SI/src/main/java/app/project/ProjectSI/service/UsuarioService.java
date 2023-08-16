@@ -36,15 +36,21 @@ public class UsuarioService {
         return usuarioDTO;
     }
 
-    public Optional<Usuario> find_usuario_service(String username) {
-        return usuarioRepo.findByUsername(username);
+    public UsuarioDTO find_usuario_service(String username) {
+        Usuario usuario = usuarioRepo.findByUsername(username).orElseThrow();;
+        UsuarioDTO usuarioDTO = new UsuarioDTO();
+        usuarioDTO.setUsername(usuario.getUsername());
+        usuarioDTO.setEmail(usuario.getEmail());
+        usuarioDTO.setFechaNacimiento(usuario.getFechaNacimiento());
+        usuarioDTO.setTelefono(usuario.getTelefono());
+        return usuarioDTO;
     }
 
     public Usuario create_usuario_service(Usuario usuario) {
         return usuarioRepo.save(usuario);
     }
 
-    public Usuario update_usuario_service(Usuario usuario) {
+    public UsuarioDTO update_usuario_service(Usuario usuario) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         Usuario usuarioExistente = (Usuario) authentication.getPrincipal();
         usuarioExistente.setUsername(usuario.getUsername());
@@ -52,7 +58,15 @@ public class UsuarioService {
         usuarioExistente.setFechaNacimiento(usuario.getFechaNacimiento());
         usuarioExistente.setPassword(passwordEncoder.encode(usuario.getPassword()));
         usuarioExistente.setTelefono(usuario.getTelefono());
-        return usuarioRepo.save(usuarioExistente);
+        usuarioRepo.save(usuarioExistente);
+
+        UsuarioDTO usuarioDTO = new UsuarioDTO();
+        usuarioDTO.setUsername(usuarioExistente.getUsername());
+        usuarioDTO.setEmail(usuarioExistente.getEmail());
+        usuarioDTO.setFechaNacimiento(usuarioExistente.getFechaNacimiento());
+        usuarioDTO.setTelefono(usuarioExistente.getTelefono());
+        usuarioDTO.setPassword(usuarioExistente.getPassword());
+        return usuarioDTO;
     }
 
     //CONTACTOS ENPOINTS
@@ -70,7 +84,6 @@ public class UsuarioService {
         UsuarioDTO usuarioDTO = new UsuarioDTO();
         usuarioDTO.setUsername(contacto.getUsername());
         usuarioDTO.setEmail(contacto.getEmail());
-        usuarioDTO.setFechaNacimiento(contacto.getFechaNacimiento());
         return usuarioDTO;
     }
 
@@ -97,9 +110,9 @@ public class UsuarioService {
         Usuario usuario = (Usuario) authentication.getPrincipal();
         Usuario seguido = usuarioRepo.findById(contactoID).orElseThrow();
 
-        Usuario usuarioConContactos = usuarioRepo.findWithContactosById(usuario.getId()).orElseThrow();
-        usuarioConContactos.getSeguidos().add(seguido);
-        usuarioRepo.save(usuarioConContactos);
+        Usuario usuarioConSeguidos = usuarioRepo.findWithSeguidosById(usuario.getId()).orElseThrow();
+        usuarioConSeguidos.getSeguidos().add(seguido);
+        usuarioRepo.save(usuarioConSeguidos);
 
         UsuarioDTO usuarioDTO = new UsuarioDTO();
         usuarioDTO.setUsername(seguido.getUsername());

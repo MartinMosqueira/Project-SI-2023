@@ -1,6 +1,7 @@
 package app.project.ProjectSI.controller;
 
 import app.project.ProjectSI.model.MensajeMuro;
+import app.project.ProjectSI.request.MensajeDTO;
 import app.project.ProjectSI.service.MensajeMuroService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,12 +19,12 @@ public class MensajeMuroController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<MensajeMuro> create_mensajeMuro_controller(@Valid @RequestBody MensajeMuro mensajeMuro){
+    public ResponseEntity<MensajeDTO> create_mensajeMuro_controller(@Valid @RequestBody MensajeMuro mensajeMuro){
         return ResponseEntity.ok(muroService.create_mensajeMuro_service(mensajeMuro));
     }
 
     @PutMapping("/update/{id}")
-    public ResponseEntity<MensajeMuro> update_mensajeMuro_controller(@PathVariable Long id, @Valid @RequestBody MensajeMuro mensajeMuro){
+    public ResponseEntity<MensajeDTO> update_mensajeMuro_controller(@PathVariable Long id, @Valid @RequestBody MensajeMuro mensajeMuro){
         return ResponseEntity.ok(muroService.update_mensajeMuro_service(id, mensajeMuro));
     }
 

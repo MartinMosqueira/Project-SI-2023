@@ -52,13 +52,13 @@ public class Usuario implements UserDetails, Serializable {
     private String password;
     @Column(name = "telefono")
     private Long telefono;
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
             name = "usuarios_contactos",
             joinColumns = @JoinColumn(name = "usuario_id"),
             inverseJoinColumns = @JoinColumn(name = "contacto_id"))
     private Set<Usuario> contactos=new HashSet<>();
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
             name = "usuarios_seguidos",
             joinColumns = @JoinColumn(name = "usuario_id"),

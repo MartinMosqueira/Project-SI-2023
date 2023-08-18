@@ -11,7 +11,11 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
+import java.util.HashSet;
+import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 public class MensajeMuroService {
@@ -62,5 +66,45 @@ public class MensajeMuroService {
     public String delete_mensajeMuro_service(Long id){
         mensajeMuroRepo.deleteById(id);
         return "Mensaje eliminado";
+    }
+
+    public Set<MensajeDTO> get_MensajesMuro_service(){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        Usuario usuarioActual = (Usuario) authentication.getPrincipal();
+
+        return mensajeMuroRepo.findAllByUsuarioId(usuarioActual.getId()).stream()
+                .map(mensaje -> {
+                    MensajeDTO mensajeDTO = new MensajeDTO();
+                    mensajeDTO.setUsername(mensaje.getUsuario().getUsername());
+                    mensajeDTO.setFecha(mensaje.getFecha());
+                    mensajeDTO.setMensaje(mensaje.getMensaje());
+                    mensajeDTO.setTags(mensaje.getTags());
+                    return mensajeDTO;
+                })
+                .collect(Collectors.toSet());
+    }
+
+    public Set<MensajeDTO> get_all_MensajeMuro_service(){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        Usuario usuarioActual = (Usuario) authentication.getPrincipal();
+
+        // Cargar explícitamente los usuarios seguidos
+        Usuario usuarioConSeguidos = usuarioRepo.findWithSeguidosById(usuarioActual.getId()).orElseThrow();
+        Set<Long> usuariosSeguidosIds = new HashSet<>(usuarioConSeguidos.getSeguidosIds());
+        usuariosSeguidosIds.add(usuarioActual.getId()); // Agregar el ID del usuario autenticado
+
+        Set<MensajeDTO> mensajesDTO = usuariosSeguidosIds.stream()
+                .flatMap(id -> mensajeMuroRepo.findAllByUsuarioId(id).stream())
+                .map(mensaje -> {
+                    MensajeDTO mensajeDTO = new MensajeDTO();
+                    mensajeDTO.setUsername(mensaje.getUsuario().getUsername());
+                    mensajeDTO.setFecha(mensaje.getFecha());
+                    mensajeDTO.setMensaje(mensaje.getMensaje());
+                    mensajeDTO.setTags(mensaje.getTags());
+                    return mensajeDTO;
+                })
+                .collect(Collectors.toSet());
+
+        return mensajesDTO;
     }
 }

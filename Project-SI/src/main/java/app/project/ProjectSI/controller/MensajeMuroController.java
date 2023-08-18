@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Set;
+
 @RestController
 @RequestMapping("/mensajeMuro")
 public class MensajeMuroController {
@@ -31,5 +33,15 @@ public class MensajeMuroController {
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<String> delete_mensajeMuro_controller(@PathVariable Long id){
         return ResponseEntity.ok(muroService.delete_mensajeMuro_service(id));
+    }
+
+    @GetMapping("/get/")
+    public ResponseEntity<Set<MensajeDTO>> get_mensajeMuro_controller(){
+        return ResponseEntity.ok(muroService.get_MensajesMuro_service());
+    }
+
+    @GetMapping("/get/all")
+    public ResponseEntity<Set<MensajeDTO>> get_all_mensajeMuro_controller(){
+        return ResponseEntity.ok(muroService.get_all_MensajeMuro_service());
     }
 }

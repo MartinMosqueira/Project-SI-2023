@@ -47,14 +47,14 @@ public class UsuarioController {
     //CONTACTOS ENPOINTS
 
     @PostMapping("/add/contacto/{contactoID}")
-    public ResponseEntity<UsuarioDTO> add_contacto_controller(@PathVariable Long contactoID) {
-        UsuarioDTO usuarioDTO = usuarioService.add_contacto_service(contactoID);
-        return ResponseEntity.ok(usuarioDTO);
+    public ResponseEntity<String> add_contacto_controller(@PathVariable Long contactoID) {
+        String contacto = usuarioService.add_contacto_service(contactoID);
+        return ResponseEntity.ok(contacto);
     }
 
     @GetMapping("/get/contactos")
-    public ResponseEntity<Set<Usuario>> get_contactos_controller() {
-        Set<Usuario> contactos = usuarioService.get_all_contactos_service();
+    public ResponseEntity<Set<UsuarioDTO>> get_contactos_controller() {
+        Set<UsuarioDTO> contactos = usuarioService.get_all_contactos_service();
         return ResponseEntity.ok(contactos);
     }
 
@@ -67,14 +67,14 @@ public class UsuarioController {
     //SESSIONS ENDPOINTS
 
     @PostMapping("/add/seguido/{seguidoID}")
-    public ResponseEntity<UsuarioDTO> add_seguido_controller(@PathVariable Long seguidoID) {
-        UsuarioDTO usuarioDTO = usuarioService.add_seguido_service(seguidoID);
-        return ResponseEntity.ok(usuarioDTO);
+    public ResponseEntity<String> add_seguido_controller(@PathVariable Long seguidoID) {
+        String seguido = usuarioService.add_seguido_service(seguidoID);
+        return ResponseEntity.ok(seguido);
     }
 
     @GetMapping("/get/seguidos")
-    public ResponseEntity<Set<Usuario>> get_seguidos_controller() {
-        Set<Usuario> seguidos = usuarioService.get_all_seguidos_service();
+    public ResponseEntity<Set<UsuarioDTO>> get_seguidos_controller() {
+        Set<UsuarioDTO> seguidos = usuarioService.get_all_seguidos_service();
         return ResponseEntity.ok(seguidos);
     }
 

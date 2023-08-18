@@ -10,8 +10,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 public class UsuarioService {
@@ -71,68 +73,78 @@ public class UsuarioService {
 
     //CONTACTOS ENPOINTS
 
-    @Transactional
-    public UsuarioDTO add_contacto_service(Long contactoID) {
+    public String add_contacto_service(Long contactoID) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         Usuario usuario = (Usuario) authentication.getPrincipal();
-        Usuario contacto = usuarioRepo.findById(contactoID).orElseThrow();
 
-        Usuario usuarioConContactos = usuarioRepo.findWithContactosById(usuario.getId()).orElseThrow();
-        usuarioConContactos.getContactos().add(contacto);
-        usuarioRepo.save(usuarioConContactos);
-
-        UsuarioDTO usuarioDTO = new UsuarioDTO();
-        usuarioDTO.setUsername(contacto.getUsername());
-        usuarioDTO.setEmail(contacto.getEmail());
-        return usuarioDTO;
+        Usuario contactos = usuarioRepo.findWithContactosById(usuario.getId()).orElseThrow();
+        contactos.getContactosIds().add(contactoID);
+        usuarioRepo.save(contactos);
+        return "Contacto añadido";
     }
 
-    public Set<Usuario> get_all_contactos_service() {
+    public Set<UsuarioDTO> get_all_contactos_service() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         Usuario usuario = (Usuario) authentication.getPrincipal();
-        Usuario usuarioConContactos = usuarioRepo.findWithContactosById(usuario.getId()).orElseThrow();
-        return usuarioConContactos.getContactos();
+        Usuario contactos = usuarioRepo.findWithContactosById(usuario.getId()).orElseThrow();
+
+        return contactos.getContactosIds().stream()
+                .filter(contactoId -> !contactoId.equals(usuario.getId())) // Filtra los IDs diferentes al del usuario autenticado
+                .map(contactoId -> usuarioRepo.findById(contactoId)
+                        .orElseThrow(() -> new RuntimeException("Contacto no encontrado")))
+                .map(contacto -> {
+                    UsuarioDTO usuarioDTO = new UsuarioDTO();
+                    usuarioDTO.setUsername(contacto.getUsername());
+                    usuarioDTO.setEmail(contacto.getEmail());
+                    return usuarioDTO;
+                })
+                .collect(Collectors.toSet());
     }
 
     public String delete_contacto_service(Long id) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         Usuario usuario = (Usuario) authentication.getPrincipal();
         Usuario usuarioConContactos = usuarioRepo.findWithContactosById(usuario.getId()).orElseThrow();
-        usuarioConContactos.getContactos().removeIf(contacto -> contacto.getId().equals(id));
+        usuarioConContactos.getContactosIds().removeIf(contacto -> contacto.equals(id));
         usuarioRepo.save(usuarioConContactos);
         return "Contacto eliminado";
     }
 
     //SEGUIDOS ENPOINTS
 
-    public UsuarioDTO add_seguido_service(Long contactoID){
+    public String add_seguido_service(Long contactoID){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         Usuario usuario = (Usuario) authentication.getPrincipal();
-        Usuario seguido = usuarioRepo.findById(contactoID).orElseThrow();
 
-        Usuario usuarioConSeguidos = usuarioRepo.findWithSeguidosById(usuario.getId()).orElseThrow();
-        usuarioConSeguidos.getSeguidos().add(seguido);
-        usuarioRepo.save(usuarioConSeguidos);
-
-        UsuarioDTO usuarioDTO = new UsuarioDTO();
-        usuarioDTO.setUsername(seguido.getUsername());
-        usuarioDTO.setEmail(seguido.getEmail());
-        usuarioDTO.setFechaNacimiento(seguido.getFechaNacimiento());
-        return usuarioDTO;
+        Usuario seguidos = usuarioRepo.findWithSeguidosById(usuario.getId()).orElseThrow();
+        seguidos.getSeguidosIds().add(contactoID);
+        usuarioRepo.save(seguidos);
+        return "Seguido añadido";
     }
 
-    public Set<Usuario> get_all_seguidos_service() {
+    public Set<UsuarioDTO> get_all_seguidos_service() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         Usuario usuario = (Usuario) authentication.getPrincipal();
-        Usuario usuarioConContactos = usuarioRepo.findWithContactosById(usuario.getId()).orElseThrow();
-        return usuarioConContactos.getSeguidos();
+        Usuario seguidos = usuarioRepo.findWithSeguidosById(usuario.getId()).orElseThrow();
+
+        return seguidos.getSeguidosIds().stream()
+                .filter(seguidoId -> !seguidoId.equals(usuario.getId())) // Filtra los IDs diferentes al del usuario autenticado
+                .map(seguidoId -> usuarioRepo.findById(seguidoId)
+                        .orElseThrow(() -> new RuntimeException("Seguido no encontrado")))
+                .map(seguido -> {
+                    UsuarioDTO usuarioDTO = new UsuarioDTO();
+                    usuarioDTO.setUsername(seguido.getUsername());
+                    usuarioDTO.setEmail(seguido.getEmail());
+                    return usuarioDTO;
+                })
+                .collect(Collectors.toSet());
     }
 
     public String delete_seguido_service(Long id) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         Usuario usuario = (Usuario) authentication.getPrincipal();
         Usuario usuarioConContactos = usuarioRepo.findWithContactosById(usuario.getId()).orElseThrow();
-        usuarioConContactos.getSeguidos().removeIf(seguido -> seguido.getId().equals(id));
+        usuarioConContactos.getSeguidosIds().removeIf(seguido -> seguido.equals(id));
         usuarioRepo.save(usuarioConContactos);
         return "Seguido eliminado";
     }

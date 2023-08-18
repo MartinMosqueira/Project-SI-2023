@@ -12,4 +12,5 @@ public interface IUsuarioRepo extends JpaRepository<Usuario, Long> {
 
     Optional<Usuario> findWithContactosById(Long id);
     Optional<Usuario> findWithSeguidosById(Long id);
+    Optional<Usuario> findById(Long id);
 }

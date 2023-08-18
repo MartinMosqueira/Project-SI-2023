@@ -52,18 +52,14 @@ public class Usuario implements UserDetails, Serializable {
     private String password;
     @Column(name = "telefono")
     private Long telefono;
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(
-            name = "usuarios_contactos",
-            joinColumns = @JoinColumn(name = "usuario_id"),
-            inverseJoinColumns = @JoinColumn(name = "contacto_id"))
-    private Set<Usuario> contactos=new HashSet<>();
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(
-            name = "usuarios_seguidos",
-            joinColumns = @JoinColumn(name = "usuario_id"),
-            inverseJoinColumns = @JoinColumn(name = "seguido_id"))
-    private Set<Usuario> seguidos=new HashSet<>();
+    @ElementCollection
+    @CollectionTable(name = "contactos", joinColumns = @JoinColumn(name = "usuario_id"))
+    @Column(name = "contacto_id")
+    private Set<Long> contactosIds = new HashSet<>();
+    @ElementCollection
+    @CollectionTable(name = "seguidos", joinColumns = @JoinColumn(name = "usuario_id"))
+    @Column(name = "seguido_id")
+    private Set<Long> seguidosIds = new HashSet<>();
     @Enumerated(EnumType.STRING)
     @Column(name = "rol")
     private Roles rol;

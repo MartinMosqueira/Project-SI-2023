@@ -1,11 +1,24 @@
 <template>
   <div>
-    <p>Mi perfil</p>
-    <p>Username: {{ usuario.username }}</p>
-    <p>Email: {{ usuario.email }}</p>
-    <p>Fecha de Nacimiento: {{ usuario.fechaNacimiento }}</p>
-    <p>Teléfono: {{ usuario.telefono }}</p>
-    <p>Rol: {{ usuario.rol }}</p>
+    <h2>Mi perfil</h2>
+    <form @submit.prevent="actualizarUsuario">
+      <label>Username</label>
+      <input v-model="usuario.username" />
+
+      <label>Email</label>
+      <input v-model="usuario.email" />
+
+      <label>Fecha de Nacimiento</label>
+      <input v-model="usuario.fechaNacimiento" />
+
+      <label>Teléfono</label>
+      <input v-model="usuario.telefono" />
+
+      <label>Password</label>
+      <input v-model="usuario.password" />
+
+      <button type="submit">Actualizar</button>
+    </form>
   </div>
 </template>
 
@@ -39,10 +52,25 @@ export default {
       axios.get("http://localhost:8080/usuario/get/", config)
           .then(response => {
             this.usuario = response.data;
-            console.log(this.getToken);
           })
           .catch(error => {
             console.error("Error al obtener los datos del usuario:", error);
+          });
+    },
+    actualizarUsuario() {
+      const config = {
+        headers: {
+          Authorization: `Bearer ${this.getToken}`
+        }
+      };
+
+      axios.put("http://localhost:8080/usuario/update", this.usuario, config)
+          .then(response => {
+            // Actualización exitosa, podrías mostrar un mensaje de éxito
+            console.log("Usuario actualizado:", response.data);
+          })
+          .catch(error => {
+            console.error("Error al actualizar el usuario:", error);
           });
     }
   }

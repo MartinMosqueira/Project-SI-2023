@@ -1,5 +1,6 @@
 <template>
   <div>
-    <p>This is an about page</p>
+    <h2>Ingenieria de Software</h2>
+    <p>Proyecto Microblogging</p>
   </div>
 </template>

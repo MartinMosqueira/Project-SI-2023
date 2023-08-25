@@ -2,6 +2,7 @@
   <header v-if="authenticated">
     <nav>
       <RouterLink v-if="authenticated" to="/home">Mensajes</RouterLink>
+      <RouterLink v-if="authenticated" to="/buscar">Buscar</RouterLink>
       <RouterLink v-if="authenticated" to="/contactos">Contactos</RouterLink>
       <RouterLink v-if="authenticated" to="/siguiendo">Siguiendo</RouterLink>
       <RouterLink v-if="authenticated" to="/perfil">Tu perfil</RouterLink>

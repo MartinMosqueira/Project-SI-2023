@@ -5,6 +5,7 @@ import Contactos from '../components/Contactos.vue'
 import Siguiendo from '../components/Siguiendo.vue'
 import Login from '../components/Login.vue'
 import store from "../store";
+import Buscar from "../components/Buscar.vue"
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -13,6 +14,21 @@ const router = createRouter({
       path: '/',
       name: 'login',
       component: Login
+    },
+    {
+      path: '/buscar',
+      name: 'buscar',
+      component: Buscar,
+      beforeEnter: (to, from, next) => {
+        const token = store.getters.getToken;
+        if (token) {
+          // El usuario tiene un token válido, permite el acceso
+          next();
+        } else {
+          // Redirige al inicio de sesión si el usuario no tiene un token válido
+          next("/");
+        }
+      },
     },
     {
       path: '/home',

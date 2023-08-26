@@ -1,10 +1,10 @@
 <template>
   <header v-if="authenticated">
     <nav>
-      <RouterLink v-if="authenticated" to="/home">Mensajes</RouterLink>
+      <RouterLink v-if="authenticated" to="/home">Notificaciones</RouterLink>
+      <RouterLink v-if="authenticated" to="/publicar">Publicar</RouterLink>
+      <RouterLink v-if="authenticated" to="/red">MiRed</RouterLink>
       <RouterLink v-if="authenticated" to="/buscar">Buscar</RouterLink>
-      <RouterLink v-if="authenticated" to="/contactos">Contactos</RouterLink>
-      <RouterLink v-if="authenticated" to="/siguiendo">Siguiendo</RouterLink>
       <RouterLink v-if="authenticated" to="/perfil">Tu perfil</RouterLink>
       <RouterLink v-if="authenticated" to="/about">About</RouterLink>
     </nav>

@@ -1,11 +1,12 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import Perfil from '../components/Perfil.vue'
-import Contactos from '../components/Contactos.vue'
-import Siguiendo from '../components/Siguiendo.vue'
 import Login from '../components/Login.vue'
 import store from "../store";
 import Buscar from "../components/Buscar.vue"
+import MiRed from "../components/MiRed.vue"
+import Publicar from "../components/Publicar.vue"
+import EditarMensaje from "../components/EditarMensaje.vue"
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -14,6 +15,51 @@ const router = createRouter({
       path: '/',
       name: 'login',
       component: Login
+    },
+    {
+      path: '/red',
+      name: 'mired',
+      component: MiRed,
+      beforeEnter: (to, from, next) => {
+        const token = store.getters.getToken;
+        if (token) {
+          // El usuario tiene un token válido, permite el acceso
+          next();
+        } else {
+          // Redirige al inicio de sesión si el usuario no tiene un token válido
+          next("/");
+        }
+      },
+    },
+    {
+      path: '/publicar',
+      name: 'publicar',
+      component: Publicar,
+      beforeEnter: (to, from, next) => {
+        const token = store.getters.getToken;
+        if (token) {
+          // El usuario tiene un token válido, permite el acceso
+          next();
+        } else {
+          // Redirige al inicio de sesión si el usuario no tiene un token válido
+          next("/");
+        }
+      },
+    },
+    {
+      path: '/editar-mensaje/:id',
+      name: 'editarmensaje',
+      component: EditarMensaje,
+      beforeEnter: (to, from, next) => {
+        const token = store.getters.getToken;
+        if (token) {
+          // El usuario tiene un token válido, permite el acceso
+          next();
+        } else {
+          // Redirige al inicio de sesión si el usuario no tiene un token válido
+          next("/");
+        }
+      },
     },
     {
       path: '/buscar',
@@ -34,36 +80,6 @@ const router = createRouter({
       path: '/home',
       name: 'home',
       component: HomeView,
-      beforeEnter: (to, from, next) => {
-        const token = store.getters.getToken;
-        if (token) {
-          // El usuario tiene un token válido, permite el acceso
-          next();
-        } else {
-          // Redirige al inicio de sesión si el usuario no tiene un token válido
-          next("/");
-        }
-      },
-    },
-    {
-      path: '/contactos',
-      name: 'contactos',
-      component: Contactos,
-      beforeEnter: (to, from, next) => {
-        const token = store.getters.getToken;
-        if (token) {
-          // El usuario tiene un token válido, permite el acceso
-          next();
-        } else {
-          // Redirige al inicio de sesión si el usuario no tiene un token válido
-          next("/");
-        }
-      },
-    },
-    {
-      path: '/siguiendo',
-      name: 'siguiendo',
-      component: Siguiendo,
       beforeEnter: (to, from, next) => {
         const token = store.getters.getToken;
         if (token) {

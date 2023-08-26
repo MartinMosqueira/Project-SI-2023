@@ -38,9 +38,15 @@ public class MensajeMuroController {
         return ResponseEntity.ok(muroService.delete_mensajeMuro_service(id));
     }
 
+    //NOTE: obtener un mensaje publicado en el muro.
+    @GetMapping("/get/mensaje/{id}")
+    public ResponseEntity<MensajeDTO> get_mensajeMuro_controller(@PathVariable Long id){
+        return ResponseEntity.ok(muroService.get_MensajeMuro_service(id));
+    }
+
     //NOTE: obtener mis mensaje publicados en el muro.
     @GetMapping("/get/")
-    public ResponseEntity<Set<MensajeDTO>> get_mensajeMuro_controller(){
+    public ResponseEntity<Set<MensajeDTO>> get_mensajesMuro_controller(){
         return ResponseEntity.ok(muroService.get_MensajesMuro_service());
     }
 

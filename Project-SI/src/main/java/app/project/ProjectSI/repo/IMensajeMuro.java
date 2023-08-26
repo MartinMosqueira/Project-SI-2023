@@ -6,5 +6,4 @@ import java.util.Set;
 
 public interface IMensajeMuro extends JpaRepository<MensajeMuro, Long> {
     Set<MensajeMuro> findAllByUsuarioId(Long id);
-    Set<MensajeMuro> findAllByUsuarioIdIn(Set<Long> ids);
 }

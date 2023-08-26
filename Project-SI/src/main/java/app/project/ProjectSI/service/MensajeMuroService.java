@@ -68,6 +68,18 @@ public class MensajeMuroService {
         return "Mensaje eliminado";
     }
 
+    public MensajeDTO get_MensajeMuro_service(Long id){
+        MensajeDTO mensajeDTO = new MensajeDTO();
+        MensajeMuro mensajeMuro = mensajeMuroRepo.findById(id).orElseThrow( ()-> new NoSuchElementException("Mensaje no encontrado"));
+        mensajeDTO.setId(mensajeMuro.getId());
+        mensajeDTO.setUsername(mensajeMuro.getUsuario().getUsername());
+        mensajeDTO.setMensaje(mensajeMuro.getMensaje());
+        mensajeDTO.setFecha(mensajeMuro.getFecha());
+        mensajeDTO.setTags(mensajeMuro.getTags());
+        mensajeDTO.setIdUsuario(mensajeMuro.getUsuario().getId());
+        return mensajeDTO;
+    }
+
     public Set<MensajeDTO> get_MensajesMuro_service(){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         Usuario usuarioActual = (Usuario) authentication.getPrincipal();
@@ -97,14 +109,16 @@ public class MensajeMuroService {
                 .flatMap(id -> mensajeMuroRepo.findAllByUsuarioId(id).stream())
                 .map(mensaje -> {
                     MensajeDTO mensajeDTO = new MensajeDTO();
+                    mensajeDTO.setId(mensaje.getId());
                     mensajeDTO.setUsername(mensaje.getUsuario().getUsername());
                     mensajeDTO.setFecha(mensaje.getFecha());
                     mensajeDTO.setMensaje(mensaje.getMensaje());
                     mensajeDTO.setTags(mensaje.getTags());
+                    mensajeDTO.setIdUsuario(mensaje.getUsuario().getId());
                     return mensajeDTO;
                 })
                 .collect(Collectors.toSet());
 
         return mensajesDTO;
-    }
+}
 }

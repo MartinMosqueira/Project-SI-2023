@@ -24,7 +24,7 @@ public class UsuarioController {
     }
 
     //NOTE: buscar usuario por username.
-    @PostMapping("/find/{username}")
+    @GetMapping("/find/{username}")
     public ResponseEntity<UsuarioDTO> find_username_controller(@PathVariable String username) {
         UsuarioDTO nameUsuario = usuarioService.find_usuario_service(username);
         return ResponseEntity.ok(nameUsuario);

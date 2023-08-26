@@ -29,6 +29,7 @@ public class UsuarioService {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         Usuario usuarioActual = (Usuario) authentication.getPrincipal();
         UsuarioDTO usuarioDTO = new UsuarioDTO();
+        usuarioDTO.setId(usuarioActual.getId());
         usuarioDTO.setUsername(usuarioActual.getUsername());
         usuarioDTO.setEmail(usuarioActual.getEmail());
         usuarioDTO.setTelefono(usuarioActual.getTelefono());
@@ -41,6 +42,7 @@ public class UsuarioService {
     public UsuarioDTO find_usuario_service(String username) {
         Usuario usuario = usuarioRepo.findByUsername(username).orElseThrow();;
         UsuarioDTO usuarioDTO = new UsuarioDTO();
+        usuarioDTO.setId(usuario.getId());
         usuarioDTO.setUsername(usuario.getUsername());
         usuarioDTO.setEmail(usuario.getEmail());
         usuarioDTO.setFechaNacimiento(usuario.getFechaNacimiento());
@@ -94,6 +96,7 @@ public class UsuarioService {
                         .orElseThrow(() -> new RuntimeException("Contacto no encontrado")))
                 .map(contacto -> {
                     UsuarioDTO usuarioDTO = new UsuarioDTO();
+                    usuarioDTO.setId(contacto.getId());
                     usuarioDTO.setUsername(contacto.getUsername());
                     usuarioDTO.setEmail(contacto.getEmail());
                     return usuarioDTO;
@@ -133,6 +136,7 @@ public class UsuarioService {
                         .orElseThrow(() -> new RuntimeException("Seguido no encontrado")))
                 .map(seguido -> {
                     UsuarioDTO usuarioDTO = new UsuarioDTO();
+                    usuarioDTO.setId(seguido.getId());
                     usuarioDTO.setUsername(seguido.getUsername());
                     usuarioDTO.setEmail(seguido.getEmail());
                     return usuarioDTO;

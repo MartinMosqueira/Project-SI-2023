@@ -12,6 +12,7 @@ import java.time.Instant;
 @AllArgsConstructor
 @NoArgsConstructor
 public class MensajeDTO {
+    private Long id;
     @NotBlank
     private String username;
     @NotNull
@@ -19,4 +20,5 @@ public class MensajeDTO {
     @NotBlank
     private String mensaje;
     private String tags;
+    private Long idUsuario;
 }

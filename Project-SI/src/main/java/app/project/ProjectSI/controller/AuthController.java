@@ -4,6 +4,7 @@ import app.project.ProjectSI.auth.AuthResponse;
 import app.project.ProjectSI.auth.LoginRequest;
 import app.project.ProjectSI.auth.RegisterRequest;
 import app.project.ProjectSI.service.AuthService;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -27,4 +28,13 @@ public class AuthController {
     public ResponseEntity<AuthResponse> register(@RequestBody RegisterRequest registerRequest) {
         return ResponseEntity.ok(authService.register(registerRequest));
     }
+
+    @PostMapping("/logout")
+    public ResponseEntity<String> logout(HttpServletRequest request) {
+        // Realiza cualquier tarea de limpieza necesaria en el servidor
+
+        // Retorna una respuesta exitosa
+        return ResponseEntity.ok("Logged out successfully.");
+    }
+
 }

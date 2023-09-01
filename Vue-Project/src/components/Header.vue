@@ -7,6 +7,7 @@
       <RouterLink v-if="authenticated" to="/buscar">Buscar</RouterLink>
       <RouterLink v-if="authenticated" to="/perfil">Tu perfil</RouterLink>
       <RouterLink v-if="authenticated" to="/about">About</RouterLink>
+      <button @click="logout">Logout</button>
     </nav>
   </header>
 </template>
@@ -14,12 +15,24 @@
 <script>
 import { computed } from 'vue';
 import store from '../store';
+import router from "@/router";
 
 export default {
   name: 'Header',
   setup() {
     const authenticated = computed(() => !!store.getters.getToken);
-    return { authenticated };
+    const logout = () => {
+      // Limpia el token en Vuex
+      store.dispatch('updateToken', '');
+
+      // Limpia el token en localStorage
+      localStorage.removeItem('token');
+
+      // Redirige al usuario a la página de inicio de sesión o a donde desees
+      // En este ejemplo, lo redirigiremos a la página de inicio
+      router.push('/');
+    };
+    return { authenticated, logout };
   },
 };
 </script>

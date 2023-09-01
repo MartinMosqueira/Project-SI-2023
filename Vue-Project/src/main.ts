@@ -8,6 +8,12 @@ import router from './router';
 
 const app = createApp(App);
 
+// Recuperar el token almacenado en LocalStorage al cargar la aplicación
+const token = localStorage.getItem('token');
+if (token) {
+    store.dispatch('updateToken', token);
+}
+
 // Agrega el interceptor para las solicitudes de Axios
 axios.interceptors.request.use(
     config => {

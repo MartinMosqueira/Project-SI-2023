@@ -7,6 +7,7 @@ const store = createStore({
     mutations: {
         setToken(state, token) {
             state.token = token;
+            localStorage.setItem('token', token); // Almacenar el token en LocalStorage
         }
     },
     actions: {

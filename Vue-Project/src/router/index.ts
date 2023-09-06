@@ -4,7 +4,6 @@ import Perfil from '../components/Perfil.vue'
 import Login from '../components/Login.vue'
 import store from "../store";
 import Buscar from "../components/Buscar.vue"
-import MiRed from "../components/MiRed.vue"
 import Publicar from "../components/Publicar.vue"
 import EditarMensaje from "../components/EditarMensaje.vue"
 
@@ -15,21 +14,6 @@ const router = createRouter({
       path: '/',
       name: 'login',
       component: Login
-    },
-    {
-      path: '/red',
-      name: 'mired',
-      component: MiRed,
-      beforeEnter: (to, from, next) => {
-        const token = store.getters.getToken;
-        if (token) {
-          // El usuario tiene un token válido, permite el acceso
-          next();
-        } else {
-          // Redirige al inicio de sesión si el usuario no tiene un token válido
-          next("/");
-        }
-      },
     },
     {
       path: '/publicar',
@@ -53,10 +37,8 @@ const router = createRouter({
       beforeEnter: (to, from, next) => {
         const token = store.getters.getToken;
         if (token) {
-          // El usuario tiene un token válido, permite el acceso
           next();
         } else {
-          // Redirige al inicio de sesión si el usuario no tiene un token válido
           next("/");
         }
       },
@@ -68,10 +50,8 @@ const router = createRouter({
       beforeEnter: (to, from, next) => {
         const token = store.getters.getToken;
         if (token) {
-          // El usuario tiene un token válido, permite el acceso
           next();
         } else {
-          // Redirige al inicio de sesión si el usuario no tiene un token válido
           next("/");
         }
       },
@@ -83,10 +63,8 @@ const router = createRouter({
       beforeEnter: (to, from, next) => {
         const token = store.getters.getToken;
         if (token) {
-          // El usuario tiene un token válido, permite el acceso
           next();
         } else {
-          // Redirige al inicio de sesión si el usuario no tiene un token válido
           next("/");
         }
       },
@@ -98,10 +76,8 @@ const router = createRouter({
       beforeEnter: (to, from, next) => {
         const token = store.getters.getToken;
         if (token) {
-          // El usuario tiene un token válido, permite el acceso
           next();
         } else {
-          // Redirige al inicio de sesión si el usuario no tiene un token válido
           next("/");
         }
       },
@@ -109,17 +85,12 @@ const router = createRouter({
     {
       path: '/about',
       name: 'about',
-      // route level code-splitting
-      // this generates a separate chunk (About.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
       component: () => import('../views/AboutView.vue'),
       beforeEnter: (to, from, next) => {
         const token = store.getters.getToken;
         if (token) {
-          // El usuario tiene un token válido, permite el acceso
           next();
         } else {
-          // Redirige al inicio de sesión si el usuario no tiene un token válido
           next("/");
         }
       },

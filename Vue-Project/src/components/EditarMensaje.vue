@@ -53,7 +53,6 @@ export default {
 
       axios.put(url, data)
           .then(response => {
-            // Manejar la respuesta en caso de éxito
             console.log("Mensaje editado con éxito");
           })
           .catch(error => {

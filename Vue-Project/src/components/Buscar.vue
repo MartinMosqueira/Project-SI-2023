@@ -29,9 +29,7 @@ export default {
       if (this.searchText) {
         axios.get(`http://localhost:8080/usuario/find/${this.searchText}`)
             .then(response => {
-              console.log(response.data);
               this.usuarios.push(response.data);
-              console.log(this.usuarios);
             })
             .catch(error => {
               console.error("Error al buscar el usuario:", error);
@@ -51,7 +49,6 @@ export default {
     agregarSeguido(idUsuario) {
       axios.post(`http://localhost:8080/usuario/add/seguido/${idUsuario}`)
           .then(response => {
-            // Actualizar la lista de usuarios después de agregar como seguido
             this.usuarios = this.usuarios.filter(usuario => usuario.id !== idUsuario);
           })
           .catch(error => {

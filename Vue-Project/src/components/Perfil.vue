@@ -19,12 +19,28 @@
 
       <button type="submit">Actualizar</button>
     </form>
+    <h2>Mi Red</h2>
+    <ul>
+      <li v-for="contacto in contactos" :key="contacto.username">
+        <p>Username: {{ contacto.username }}</p>
+        <p>Email: {{ contacto.email }}</p>
+        <button @click="eliminarContacto(contacto.id)">Eliminar</button>
+      </li>
+    </ul>
+    <h2>Siguiendo</h2>
+    <ul>
+      <li v-for="seguido in seguidos" :key="seguido.username">
+        <p>Username: {{ seguido.username }}</p>
+        <p>Email: {{ seguido.email }}</p>
+        <button @click="eliminarSeguido(seguido.id)">Eliminar</button>
+      </li>
+    </ul>
   </div>
 </template>
 
 <script>
 import axios from "axios";
-import { mapGetters } from "vuex"; // Importa mapGetters desde vuex
+import { mapGetters } from "vuex";
 
 export default {
   name: "Perfil",
@@ -33,11 +49,15 @@ export default {
   },
   data() {
     return {
-      usuario: {} // Aquí se almacenarán los datos del usuario
+      usuario: {},
+      contactos: [],
+      seguidos: []
     };
   },
   mounted() {
     this.fetchUsuario();
+    this.fetchContactos();
+    this.fetchSeguido();
   },
   methods: {
     fetchUsuario() {
@@ -48,7 +68,6 @@ export default {
         }
       };
 
-      // Realiza la solicitud GET al endpoint del backend con las cabeceras configuradas
       axios.get("http://localhost:8080/usuario/get/", config)
           .then(response => {
             this.usuario = response.data;
@@ -66,12 +85,55 @@ export default {
 
       axios.put("http://localhost:8080/usuario/update", this.usuario, config)
           .then(response => {
-            // Actualización exitosa, podrías mostrar un mensaje de éxito
             console.log("Usuario actualizado:", response.data);
           })
           .catch(error => {
             console.error("Error al actualizar el usuario:", error);
           });
+    },
+    fetchContactos() {
+      axios.get("http://localhost:8080/usuario/get/contactos")
+          .then(response => {
+            this.contactos = response.data;
+          })
+          .catch(error => {
+            console.error("Error al obtener los contactos:", error);
+          });
+    },
+    eliminarContacto(id) {
+      if (id) {
+        axios.delete(`http://localhost:8080/usuario/delete/contacto/${id}`)
+            .then(response => {
+              this.contactos = this.contactos.filter(contacto => contacto.id !== id);
+            })
+            .catch(error => {
+              console.error("Error al eliminar el contacto:", error);
+            });
+      } else {
+        console.error("ID de contacto no válido:", id);
+      }
+    },
+    fetchSeguido() {
+      axios.get("http://localhost:8080/usuario/get/seguidos")
+          .then(response => {
+            this.seguidos = response.data;
+          })
+          .catch(error => {
+            console.error("Error al obtener los seguidos:", error);
+          });
+    },
+    eliminarSeguido(id) {
+      if (id) {
+        axios.delete(`http://localhost:8080/usuario/delete/seguido/${id}`)
+            .then(response => {
+              this.seguidos = this.seguidos.filter(seguidos => seguidos.id !== id);
+            })
+            .catch(error => {
+              console.error("Error al eliminar el seguido:", error);
+            });
+      } else {
+        console.error("ID de seguido no válido:", id);
+      }
     }
   }
 };

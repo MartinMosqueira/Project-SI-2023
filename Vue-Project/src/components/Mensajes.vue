@@ -40,16 +40,12 @@ export default {
     fetchUsuarioActual() {
       axios.get("http://localhost:8080/usuario/get/")
           .then(response => {
-            console.log(response.data);
             this.usuarioActual = response.data.id;
           })
           .catch(error => {
             console.error("Error al obtener el usuario actual:", error);
           });
     },
-    editarMensaje(mensajeId) {
-      // Implementa la lógica para editar el mensaje con el ID mensajeId
-    }
   }
 };
 </script>

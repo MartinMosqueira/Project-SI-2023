@@ -3,7 +3,6 @@
     <nav>
       <RouterLink v-if="authenticated" to="/home">Notificaciones</RouterLink>
       <RouterLink v-if="authenticated" to="/publicar">Publicar</RouterLink>
-      <RouterLink v-if="authenticated" to="/red">MiRed</RouterLink>
       <RouterLink v-if="authenticated" to="/buscar">Buscar</RouterLink>
       <RouterLink v-if="authenticated" to="/perfil">Tu perfil</RouterLink>
       <RouterLink v-if="authenticated" to="/about">About</RouterLink>
@@ -28,8 +27,7 @@ export default {
       // Limpia el token en localStorage
       localStorage.removeItem('token');
 
-      // Redirige al usuario a la página de inicio de sesión o a donde desees
-      // En este ejemplo, lo redirigiremos a la página de inicio
+      // Redirige al usuario a la página de inicio de sesión
       router.push('/');
     };
     return { authenticated, logout };

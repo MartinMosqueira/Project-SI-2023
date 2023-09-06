@@ -34,7 +34,6 @@ export default {
         // Redirecciona a la página de perfil después del inicio de sesión exitoso
         this.$router.push("/home");
 
-        // Luego redireccionar a la página de perfil u otra
       } catch (error) {
         console.error("Error al iniciar sesión:", error);
       }

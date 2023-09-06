@@ -24,7 +24,6 @@ export default {
       axios.post("http://localhost:8080/mensajeMuro/create", this.mensaje)
           .then(response => {
             console.log("Mensaje publicado con éxito:", response.data);
-            // Restablecer los valores de las propiedades del mensaje
             this.mensaje.mensaje = "";
             this.mensaje.tags = "";
           })

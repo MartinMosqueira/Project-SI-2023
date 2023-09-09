@@ -13,6 +13,7 @@
         <p>Mensaje: {{ mensaje.mensaje }}</p>
         <p>Tags: {{ mensaje.tags }}</p>
         <router-link v-if="mensaje.idUsuario === usuarioActual" :to="`/editar-mensaje/${mensaje.id}`">Editar</router-link>
+        <a v-if="mensaje.idUsuario === usuarioActual" @click="eliminarMensaje(mensaje.id)">Eliminar</a>
       </li>
     </ul>
   </div>
@@ -65,6 +66,15 @@ export default {
           })
           .catch(error => {
             console.error("Error al publicar el mensaje:", error);
+          });
+    },
+    eliminarMensaje(idMensaje){
+      axios.delete(`http://localhost:8080/mensajeMuro/delete/${idMensaje}`)
+          .then(response => {
+            this.mensajes = this.mensajes.filter(mensaje => mensaje.id !== idMensaje);
+          })
+          .catch(error => {
+            console.error("Error al eliminar el mensaje:", error);
           });
     }
   }

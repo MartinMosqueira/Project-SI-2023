@@ -44,10 +44,8 @@ export default {
 
         const token = response.data.token;
 
-        // Almacenar el token en Vuex
         await store.dispatch("updateToken", token);
 
-        // Redirecciona a la página de perfil después del inicio de sesión exitoso
         this.$router.push("/home");
 
       } catch (error) {

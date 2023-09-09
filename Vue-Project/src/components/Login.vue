@@ -3,6 +3,7 @@
     <input v-model="username" placeholder="Username" />
     <input v-model="password" type="password" placeholder="Password" />
     <button @click="login">Login</button>
+    <p>¿No tienes cuenta? <a @mouseenter="isPointer = true" @mouseleave="isPointer = false" :style="{ cursor: isPointer ? 'pointer' : 'default' }" @click="register">Regístrate</a></p>
   </div>
 </template>
 
@@ -15,7 +16,8 @@ export default {
   data() {
     return {
       username: "",
-      password: ""
+      password: "",
+      isPointer: false
     };
   },
   methods: {
@@ -37,7 +39,10 @@ export default {
       } catch (error) {
         console.error("Error al iniciar sesión:", error);
       }
+    },
+    register() {
+      this.$router.push("/register");
     }
-  }
+  },
 };
 </script>

@@ -6,6 +6,7 @@ import store from "../store";
 import Buscar from "../components/Buscar.vue"
 import Publicar from "../components/Publicar.vue"
 import EditarMensaje from "../components/EditarMensaje.vue"
+import Register from "../components/Register.vue"
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -14,6 +15,11 @@ const router = createRouter({
       path: '/',
       name: 'login',
       component: Login
+    },
+    {
+      path: '/register',
+      name: 'register',
+      component: Register
     },
     {
       path: '/publicar',

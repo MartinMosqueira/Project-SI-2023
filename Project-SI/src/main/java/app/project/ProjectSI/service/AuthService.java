@@ -35,7 +35,8 @@ public class AuthService {
     }
 
     public AuthResponse register(RegisterRequest registerRequest) {
-        Roles requestedRole = Roles.valueOf(registerRequest.getRol());
+        //Roles requestedRole = Roles.valueOf(registerRequest.getRol());
+        Roles requestedRole = Roles.valueOf("USER");
         Usuario usuario = Usuario.builder()
                 .username(registerRequest.getUsername())
                 .password(passwordEncoder.encode(registerRequest.getPassword()))

@@ -2,7 +2,6 @@
   <header v-if="authenticated">
     <nav>
       <RouterLink v-if="authenticated" to="/home">Notificaciones</RouterLink>
-      <RouterLink v-if="authenticated" to="/publicar">Publicar</RouterLink>
       <RouterLink v-if="authenticated" to="/buscar">Buscar</RouterLink>
       <RouterLink v-if="authenticated" to="/perfil">Tu perfil</RouterLink>
       <RouterLink v-if="authenticated" to="/about">About</RouterLink>

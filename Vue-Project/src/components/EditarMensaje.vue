@@ -54,6 +54,7 @@ export default {
       axios.put(url, data)
           .then(response => {
             console.log("Mensaje editado con éxito");
+            this.$router.push("/home");
           })
           .catch(error => {
             console.error("Error al editar el mensaje:", error);

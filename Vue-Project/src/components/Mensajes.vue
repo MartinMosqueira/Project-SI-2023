@@ -1,5 +1,10 @@
 <template>
   <div>
+    <h2>Publicar Mensaje</h2>
+    <input v-model="mensaje.mensaje" placeholder="Mensaje" />
+    <input v-model="mensaje.tags" placeholder="Tags" />
+    <button @click="publicarMensaje">Publicar</button>
+
     <h2>Mis Mensajes</h2>
     <ul>
       <li v-for="mensaje in mensajes" :key="mensaje.id">
@@ -20,7 +25,11 @@ export default {
   data() {
     return {
       mensajes: [],
-      usuarioActual: null
+      usuarioActual: null,
+      mensaje: {
+        mensaje: "",
+        tags: ""
+      }
     };
   },
   mounted() {
@@ -46,6 +55,18 @@ export default {
             console.error("Error al obtener el usuario actual:", error);
           });
     },
+    publicarMensaje() {
+      axios.post("http://localhost:8080/mensajeMuro/create", this.mensaje)
+          .then(response => {
+            console.log("Mensaje publicado con éxito:", response.data);
+            this.mensaje.mensaje = "";
+            this.mensaje.tags = "";
+            this.fetchMensajes();
+          })
+          .catch(error => {
+            console.error("Error al publicar el mensaje:", error);
+          });
+    }
   }
 };
 </script>

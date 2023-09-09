@@ -4,7 +4,6 @@ import Perfil from '../components/Perfil.vue'
 import Login from '../components/Login.vue'
 import store from "../store";
 import Buscar from "../components/Buscar.vue"
-import Publicar from "../components/Publicar.vue"
 import EditarMensaje from "../components/EditarMensaje.vue"
 import Register from "../components/Register.vue"
 
@@ -20,21 +19,6 @@ const router = createRouter({
       path: '/register',
       name: 'register',
       component: Register
-    },
-    {
-      path: '/publicar',
-      name: 'publicar',
-      component: Publicar,
-      beforeEnter: (to, from, next) => {
-        const token = store.getters.getToken;
-        if (token) {
-          // El usuario tiene un token válido, permite el acceso
-          next();
-        } else {
-          // Redirige al inicio de sesión si el usuario no tiene un token válido
-          next("/");
-        }
-      },
     },
     {
       path: '/editar-mensaje/:id',

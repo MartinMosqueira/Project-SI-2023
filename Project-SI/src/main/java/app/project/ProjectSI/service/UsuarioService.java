@@ -73,6 +73,13 @@ public class UsuarioService {
         return usuarioDTO;
     }
 
+    public String delete_usuario_service() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        Usuario usuario = (Usuario) authentication.getPrincipal();
+        usuarioRepo.deleteById(usuario.getId());
+        return "Usuario eliminado";
+    }
+
     //CONTACTOS ENPOINTS
 
     public String add_contacto_service(Long contactoID) {

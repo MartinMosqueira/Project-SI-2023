@@ -11,6 +11,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Cascade;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -55,11 +56,15 @@ public class Usuario implements UserDetails, Serializable {
     @ElementCollection
     @CollectionTable(name = "contactos", joinColumns = @JoinColumn(name = "usuario_id"))
     @Column(name = "contacto_id")
+    @Cascade(org.hibernate.annotations.CascadeType.ALL)
     private Set<Long> contactosIds = new HashSet<>();
     @ElementCollection
     @CollectionTable(name = "seguidos", joinColumns = @JoinColumn(name = "usuario_id"))
     @Column(name = "seguido_id")
+    @Cascade(org.hibernate.annotations.CascadeType.ALL)
     private Set<Long> seguidosIds = new HashSet<>();
+    @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL)
+    private List<Mensajes> mensajes = new ArrayList<>();
     @Enumerated(EnumType.STRING)
     @Column(name = "rol")
     private Roles rol;

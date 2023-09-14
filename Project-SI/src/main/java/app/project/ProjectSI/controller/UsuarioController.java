@@ -44,6 +44,13 @@ public class UsuarioController {
         return ResponseEntity.ok(updateUsuario);
     }
 
+    //NOTE: eliminar cuenta.
+    @DeleteMapping("/delete")
+    public ResponseEntity<String> delete_usuario_controller() {
+        String deleteUsuario = usuarioService.delete_usuario_service();
+        return ResponseEntity.ok(deleteUsuario);
+    }
+
     //CONTACTOS ENPOINTS
 
     //NOTE: agregar contacto.

@@ -35,12 +35,15 @@
         <button @click="eliminarSeguido(seguido.id)">Eliminar</button>
       </li>
     </ul>
+    <button @click="eliminarCuenta">Eliminar Cuenta</button>
   </div>
 </template>
 
 <script>
 import axios from "axios";
 import { mapGetters } from "vuex";
+import store from "@/store";
+import router from "@/router";
 
 export default {
   name: "Perfil",
@@ -134,6 +137,19 @@ export default {
       } else {
         console.error("ID de seguido no válido:", id);
       }
+    },
+    eliminarCuenta(){
+      axios.delete("http://localhost:8080/usuario/delete")
+          .then(response => {
+            store.dispatch('updateToken', '');
+            localStorage.removeItem('token');
+            router.push('/');
+
+            console.log("Cuenta eliminada con éxito");
+          })
+          .catch(error => {
+            console.error("Error al eliminar la cuenta:", error);
+          });
     }
   }
 };

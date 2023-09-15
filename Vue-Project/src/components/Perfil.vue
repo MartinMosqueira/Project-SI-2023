@@ -14,11 +14,18 @@
       <label>Teléfono</label>
       <input v-model="usuario.telefono" />
 
-      <label>Password</label>
-      <input v-model="usuario.password" />
-
       <button type="submit">Actualizar</button>
     </form>
+
+    <h2>Seguridad</h2>
+    <form @submit.prevent="actualizarPassword">
+      <label>Rol</label>
+      <span>{{ usuario.rol }}</span>
+      <label>Contraseña</label>
+      <input v-model="password" />
+      <button type="submit">Actualizar</button>
+    </form>
+
     <h2>Mi Red</h2>
     <ul>
       <li v-for="contacto in contactos" :key="contacto.username">
@@ -53,6 +60,7 @@ export default {
   data() {
     return {
       usuario: {},
+      password: "",
       contactos: [],
       seguidos: []
     };
@@ -92,6 +100,21 @@ export default {
           })
           .catch(error => {
             console.error("Error al actualizar el usuario:", error);
+          });
+    },
+    actualizarPassword() {
+      const config = {
+        headers: {
+          Authorization: `Bearer ${this.getToken}`
+        }
+      };
+
+      axios.put("http://localhost:8080/usuario/update/password", { password: this.password }, config)
+          .then(response => {
+            console.log("Contraseña actualizada:", response.data);
+          })
+          .catch(error => {
+            console.error("Error al actualizar la contraseña:", error);
           });
     },
     fetchContactos() {

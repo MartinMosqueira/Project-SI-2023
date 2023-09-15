@@ -1,6 +1,7 @@
 package app.project.ProjectSI.controller;
 
 import app.project.ProjectSI.model.Usuario;
+import app.project.ProjectSI.request.SecurityDTO;
 import app.project.ProjectSI.request.UsuarioDTO;
 import app.project.ProjectSI.service.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,6 +43,13 @@ public class UsuarioController {
     public ResponseEntity<UsuarioDTO> update_usuario_controller(@RequestBody Usuario usuario) {
         UsuarioDTO updateUsuario = usuarioService.update_usuario_service(usuario);
         return ResponseEntity.ok(updateUsuario);
+    }
+
+    //NOTE: actualizar password.
+    @PutMapping ("/update/password")
+    public ResponseEntity<SecurityDTO> update_password_controller(@RequestBody SecurityDTO security) {
+        SecurityDTO updateSecurity = usuarioService.update_password_service(security);
+        return ResponseEntity.ok(updateSecurity);
     }
 
     //NOTE: eliminar cuenta.

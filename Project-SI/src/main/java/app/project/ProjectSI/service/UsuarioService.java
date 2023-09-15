@@ -2,16 +2,13 @@ package app.project.ProjectSI.service;
 
 import app.project.ProjectSI.model.Usuario;
 import app.project.ProjectSI.repo.IUsuarioRepo;
+import app.project.ProjectSI.request.SecurityDTO;
 import app.project.ProjectSI.request.UsuarioDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
-import java.util.HashSet;
-import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -60,7 +57,6 @@ public class UsuarioService {
         usuarioExistente.setUsername(usuario.getUsername());
         usuarioExistente.setEmail(usuario.getEmail());
         usuarioExistente.setFechaNacimiento(usuario.getFechaNacimiento());
-        usuarioExistente.setPassword(passwordEncoder.encode(usuario.getPassword()));
         usuarioExistente.setTelefono(usuario.getTelefono());
         usuarioRepo.save(usuarioExistente);
 
@@ -70,7 +66,22 @@ public class UsuarioService {
         usuarioDTO.setFechaNacimiento(usuarioExistente.getFechaNacimiento());
         usuarioDTO.setTelefono(usuarioExistente.getTelefono());
         usuarioDTO.setPassword(usuarioExistente.getPassword());
+        usuarioDTO.setRol(usuarioExistente.getRol().name());
         return usuarioDTO;
+    }
+
+    public SecurityDTO update_password_service(SecurityDTO security) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        Usuario usuarioExistente = (Usuario) authentication.getPrincipal();
+        System.out.println(security.getPassword());
+        usuarioExistente.setPassword(passwordEncoder.encode(security.getPassword()));
+        usuarioRepo.save(usuarioExistente);
+
+        SecurityDTO securityDTO = new SecurityDTO();
+        securityDTO.setPassword(usuarioExistente.getPassword());
+        securityDTO.setRol(usuarioExistente.getRol().name());
+
+        return securityDTO;
     }
 
     public String delete_usuario_service() {

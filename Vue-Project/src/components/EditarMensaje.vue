@@ -1,14 +1,14 @@
 <template>
-  <div>
-    <h2>Editar Mensaje</h2>
-    <form @submit.prevent="editarMensaje">
-      <label>Mensaje:</label>
-      <textarea v-model="nuevoMensaje">{{ mensajeActual.mensaje }}</textarea>
+  <div class="edit-message-container">
+    <h2 class="edit-message-heading">Editar Mensaje</h2>
+    <form @submit.prevent="editarMensaje" class="edit-message-form">
+      <label for="edit-message">Mensaje:</label>
+      <textarea v-model="nuevoMensaje" id="edit-message" class="edit-message-textarea">{{ mensajeActual.mensaje }}</textarea>
 
-      <label>Tags:</label>
-      <input v-model="nuevosTags" type="text" />
+      <label for="edit-tags">Tags:</label>
+      <input v-model="nuevosTags" type="text" id="edit-tags" class="edit-tags-input"/>
 
-      <button type="submit">Guardar Cambios</button>
+      <button type="submit" class="edit-message-button">Guardar Cambios</button>
     </form>
   </div>
 </template>
@@ -63,3 +63,51 @@ export default {
   }
 };
 </script>
+
+<style scoped>
+.edit-message-container {
+  margin: 20px;
+  font-family: 'Helvetica Neue', Arial, sans-serif;
+}
+
+.edit-message-heading {
+  color: #4267B2;
+  margin-bottom: 10px;
+}
+
+.edit-message-form {
+  display: flex;
+  flex-direction: column;
+}
+
+.edit-message-form label {
+  font-weight: bold;
+}
+
+.edit-message-textarea {
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  resize: vertical;
+}
+
+.edit-tags-input {
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.edit-message-button {
+  background-color: #4267B2;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+}
+
+.edit-message-button:hover {
+  background-color: #365899;
+}
+</style>

@@ -1,12 +1,14 @@
 <template>
-  <header v-if="authenticated">
-    <nav>
-      <RouterLink v-if="authenticated" to="/home">Notificaciones</RouterLink>
-      <RouterLink v-if="authenticated" to="/buscar">Buscar</RouterLink>
-      <RouterLink v-if="authenticated" to="/perfil">Tu perfil</RouterLink>
-      <RouterLink v-if="authenticated" to="/about">About</RouterLink>
+  <header v-if="authenticated" class="header">
+    <div class="left-links">
+      <RouterLink  class="links" v-if="authenticated" to="/home">Notificaciones</RouterLink>
+      <RouterLink class="links" v-if="authenticated" to="/buscar">Buscar</RouterLink>
+      <RouterLink class="links" v-if="authenticated" to="/perfil">Tu perfil</RouterLink>
+      <RouterLink class="links" v-if="authenticated" to="/about">About</RouterLink>
+    </div>
+    <div class="right-links">
       <button @click="logout">Logout</button>
-    </nav>
+    </div>
   </header>
 </template>
 
@@ -33,3 +35,34 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+  background-color: #4267B2;
+  color: white;
+  font-family: 'Helvetica Neue', Arial, sans-serif;
+}
+
+.left-links {
+  display: flex;
+}
+
+.links {
+  margin-right: 20px;
+  color: white;
+  text-decoration: none;
+  font-size: 15px;
+}
+
+.right-links button {
+  background-color: transparent;
+  border: none;
+  color: white;
+  cursor: pointer;
+  font-weight: bold;
+}
+</style>

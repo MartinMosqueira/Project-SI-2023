@@ -7,7 +7,7 @@
     <div class="right-column">
       <div class="login-container">
         <h2 class="login-header">Inicio de sesión</h2>
-        <input v-model="username" class="login-input" placeholder="Correo electrónico o teléfono" />
+        <input v-model="username" class="login-input" placeholder="Nombre de Usuario" />
         <input v-model="password" class="login-input" type="password" placeholder="Contraseña" />
         <button @click="login" class="login-button">Iniciar sesión</button>
         <p class="login-register-text">¿No tienes cuenta? <a @click="register" class="login-register-link">Regístrate</a></p>

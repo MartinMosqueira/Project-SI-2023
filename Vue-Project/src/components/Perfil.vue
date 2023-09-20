@@ -1,48 +1,50 @@
 <template>
-  <div>
-    <h2>Mi perfil</h2>
-    <form @submit.prevent="actualizarUsuario">
-      <label>Username</label>
-      <input v-model="usuario.username" />
+  <div class="profile-container">
+    <h2 class="section-heading">Mi perfil</h2>
+    <form @submit.prevent="actualizarUsuario" class="form">
+      <label for="username">Username:</label>
+      <input v-model="usuario.username" id="username" class="input-field" />
 
-      <label>Email</label>
-      <input v-model="usuario.email" />
+      <label for="email">Email:</label>
+      <input v-model="usuario.email" id="email" class="input-field" />
 
-      <label>Fecha de Nacimiento</label>
-      <input v-model="usuario.fechaNacimiento" />
+      <label for="fechaNacimiento">Fecha de Nacimiento:</label>
+      <input v-model="usuario.fechaNacimiento" id="fechaNacimiento" class="input-field" />
 
-      <label>Teléfono</label>
-      <input v-model="usuario.telefono" />
+      <label for="telefono">Teléfono:</label>
+      <input v-model="usuario.telefono" id="telefono" class="input-field" />
 
-      <button type="submit">Actualizar</button>
+      <button type="submit" class="action-button">Actualizar</button>
     </form>
 
-    <h2>Seguridad</h2>
-    <form @submit.prevent="actualizarPassword">
-      <label>Rol</label>
-      <span>{{ usuario.rol }}</span>
-      <label>Contraseña</label>
-      <input v-model="password" />
-      <button type="submit">Actualizar</button>
+    <h2 class="section-heading">Seguridad</h2>
+    <form @submit.prevent="actualizarPassword" class="form">
+      <label for="rol">Rol:</label>
+      <span id="rol">{{ usuario.rol }}</span>
+      <label for="password">Contraseña:</label>
+      <input v-model="password" type="password" id="password" class="input-field" />
+      <button type="submit" class="action-button">Actualizar</button>
     </form>
 
-    <h2>Mi Red</h2>
-    <ul>
-      <li v-for="contacto in contactos" :key="contacto.username">
+    <h2 class="section-heading">Mi Red</h2>
+    <ul class="user-list">
+      <li v-for="contacto in contactos" :key="contacto.username" class="user-item">
         <p>Username: {{ contacto.username }}</p>
         <p>Email: {{ contacto.email }}</p>
-        <button @click="eliminarContacto(contacto.id)">Eliminar</button>
+        <button @click="eliminarContacto(contacto.id)" class="action-button">Eliminar</button>
       </li>
     </ul>
-    <h2>Siguiendo</h2>
-    <ul>
-      <li v-for="seguido in seguidos" :key="seguido.username">
+
+    <h2 class="section-heading">Siguiendo</h2>
+    <ul class="user-list">
+      <li v-for="seguido in seguidos" :key="seguido.username" class="user-item">
         <p>Username: {{ seguido.username }}</p>
         <p>Email: {{ seguido.email }}</p>
-        <button @click="eliminarSeguido(seguido.id)">Eliminar</button>
+        <button @click="eliminarSeguido(seguido.id)" class="action-button">Eliminar</button>
       </li>
     </ul>
-    <button @click="eliminarCuenta">Eliminar Cuenta</button>
+
+    <button @click="eliminarCuenta" class="delete-account-button">Eliminar Cuenta</button>
   </div>
 </template>
 
@@ -177,3 +179,67 @@ export default {
   }
 };
 </script>
+
+<style scoped>
+.profile-container {
+  margin: 20px;
+  font-family: 'Helvetica Neue', Arial, sans-serif;
+}
+
+.section-heading {
+  color: #4267B2;
+  margin-bottom: 10px;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+}
+
+.form label {
+  font-weight: bold;
+}
+
+.input-field {
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  width: 95%;
+}
+
+.action-button {
+  background-color: #4267B2;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  width: 10%;
+}
+
+.action-button:hover {
+  background-color: #365899;
+}
+
+.user-list {
+  list-style-type: none;
+  padding: 0;
+}
+
+.user-item {
+  margin-bottom: 20px;
+  padding: 10px;
+  border: 1px solid #e9ebee;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+}
+
+.delete-account-button {
+  background-color: #d9534f;
+  color: white;
+  border: none;
+  padding: 10px;
+  cursor: pointer;
+  width: 10%;
+}
+</style>
